@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    backup:
+        image: backup-restore
+        user: root
+        restart: unless-stopped
+        env_file: .env
+        build:
+            context: ./
+            dockerfile: ./Dockerfile
+
+        entrypoint: ["sh","/app/docker/wsgi-entrypoint.sh"]
+        volumes:
+            - static_volume:/app/backup_and_restore/backup_and_restore/static
+        ports:
+            - 8000:8000
+        container_name: backup
+
+volumes:
+    static_volume:
